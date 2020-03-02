@@ -1,26 +1,44 @@
 #!/bin/bash
 apt install openvpn -y
+clear
+ip a
+echo -e "\n \n Bitte gebe die Variablen ein: \n"
+#echo -e "Dateiname für Server <>.cert"
+read -p "Dateiname für Server <>.cert? " servername
 
-echo -e "\n Dateiname für Server <>.cert"
-read servername
+#echo -e "\n Dateiname für Client01 <>.cert"
+read -p "Dateiname für Client01 <>.cert? " clientname01
 
-echo -e "\n Dateiname für Client01 <>.cert"
-read clientname01
+#echo -e "\n Dateiname für Client02 <>.cert"
+read -p "Dateiname für Client02 <>.cert? " clientname02
 
-echo -e "\n Dateiname für Client02 <>.cert"
-read clientname02
+#echo -e "\n VPN Netz IP bsp. 192.168.0.0"
+read -p "VPN Netz IP bsp. 192.168.0.0? " VpnNetzIp
+read -p "VPN Server IP? " serverip
 
-echo -e "\n VPN Netz IP bsp. 192.168.0.0"
-read VpnNetzIp
+echo -e "\n Diffie Hellman Parameter Engabe"
+read -p "Bitte wähle: (1) 1024 / (2) 2048 / (3) 4096? " dh
+case ${dh:0:1} in
+    1 )
+        dh="1024"
+    ;;
+    2 )
+        dh="2048"
+    ;;
+    3 )
+        dh="4096"
+    ;;
+esac
 
-echo -e "\n Diffie Hellman Parameter Engabe von: 1024 / 2048 / 4096"
-read dh
-
-echo "VPN Server netz \n Netz:§VpnNetzIp \n Submask: 255.255.255.0 -> /24 \n"
-echo "iffie Hellman Parameter \n Eingabe $dh \n"
-echo "Server Dateien \n $servername.cert $servername.key \n "
-echo "Client 01 Dateien \n $clientname01.cert $clientname01.key \n"
-echo "Client 02 Dateien \n $clientname02.cert $clientname02.key \n"
+clear
+echo -e "\n \n"
+echo "Eingaben in der Übersicht:"
+echo -e "VPN \n Netz: $VpnNetzIp \n Submask: 255.255.255.0 -> /24 \n"
+echo -e "VPN Server \n IP: $serverip \n"
+echo -e "Diffie Hellman Parameter \n Eingabe: $dh \n"
+echo -e "Server Dateien \n $servername.cert \n $servername.key \n "
+echo -e "Client 01 Dateien \n $clientname01.cert \n $clientname01.key \n"
+echo -e "Client 02 Dateien \n $clientname02.cert \n $clientname02.key \n"
 
 read -p "Alle Eingaben Richtig (y/n)? " answer
 case ${answer:0:1} in
@@ -28,13 +46,14 @@ case ${answer:0:1} in
         #hier könnte Werbung stehen
     ;;
     * )
+        echo "Abbruch es wurde noch nichts am system veraendert!!!"
         exit
     ;;
 esac
+echo -e "\n Lehne dich zurück wir arbeiten jetzt für dich ....."
 
 
-
-echo -e "\n Easy-rsa \n"
+echo -e "\n \n \n     Easy-rsa \n"
 echo -e "Erstellung der Zertifikate\n"
 
 cd /usr/share/doc/easy-rsa/
@@ -43,7 +62,6 @@ cd /root/my_ca
 
 ./easyrsa clean-all
 ./easyrsa build-ca nopass
-./easyrsa gen-dh
 
 ./easyrsa build-server-full $servername nopass
 ./easyrsa build-client-full $clientname01 nopass
@@ -51,14 +69,16 @@ cd /root/my_ca
 
 echo -e "\n Ende Easy-rsa \n"
 
-echo -e  "\n Diffie Hellman Parameter erzeugen \n"
+echo -e  "Diffie Hellman Parameter erzeugen \n"
 openssl dhparam -out dh.pem $dh
 
+echo -e "Server key / cert / ca.cert / dh.pem werden in /etc/openvpn/ kopiert \n"
 cp /root/my_ca/pki/private/$servername.key /etc/openvpn/
 cp /root/my_ca/pki/issued/$servername.crt /etc/openvpn/
 cp /root/my_ca/pki/ca.crt /etc/openvpn/
 cp /root/my_ca/pki/dh.pem /etc/openvpn/
 
+echo -e "server.conf wird in /etc/openvpn/ erstellt \n"
 path="/etc/openvpn/server.conf"
 
 echo "server $VpnNetzIp 255.255.255.0" > $path
@@ -74,10 +94,69 @@ echo "keepalive 20 180" >> $path
 
 systemctl restart openvpn
 
+echo "VPN Server ist aktiv"
+
+
+echo "Client01 conf erstellen"
+mkdir /home/tmp
+cd /home/tmp
+cp /root/my_ca/pki/issued/$clientname01.crt $clientname01.crt
+cp /root/my_ca/pki/private/$clientname01.key $clientname01.key
+cp /root/my_ca/pki/ca.crt ca.cert
+
+clientpath="/home/tmp/$clientname01.conf"
+
+echo "remote $serverip 1194" > $clientpath
+echo "proto udp" >> $clientpath
+echo "dev tun" >> $clientpath
+echo "ca ca.crt" >> $clientpath
+echo "cert client01.crt" >> $clientpath
+echo "key client01.key" >> $clientpath
+echo "dh dh.pem" >> $clientpath
+echo "ping-timer-rem" >> $clientpath
+echo "keepalive 20 180" >> $clientpath
+echo "<ca>" >> $clientpath
+cat ca.cert >> $clientpath 
+echo "</ca>" >> $clientpath
+echo "<cert>" >> $clientpath
+cat $clientname01.crt >> $clientpath 
+echo "</cert>" >> $clientpath
+echo "<key>" >> $clientpath
+cat $clientname01.key >> $clientpath 
+echo "</key>" >> $clientpath
+
+echo "Client02 conf erstellen"
+cp /root/my_ca/pki/issued/$clientname02.crt $clientname02.crt
+cp /root/my_ca/pki/private/$clientname02.key $clientname02.key
+
+
+clientpath2="/home/tmp/$clientname02.conf"
+
+echo "remote $serverip 1194" > $clientpath2
+echo "proto udp" >> $clientpath2
+echo "dev tun" >> $clientpath2
+echo "ca ca.crt" >> $clientpath2
+echo "cert client01.crt" >> $clientpath2
+echo "key client01.key" >> $clientpath2
+echo "dh dh.pem" >> $clientpath2
+echo "ping-timer-rem" >> $clientpath2
+echo "keepalive 20 180" >> $clientpath2
+echo "<ca>" >> $clientpath2
+cat ca.cert >> $clientpath2 
+echo "</ca>" >> $clientpath2
+echo "<cert>" >> $clientpath2
+cat $clientname02.crt >> $clientpath2
+echo "</cert>" >> $clientpath2
+echo "<key>" >> $clientpath2
+cat $clientname02.key >> $clientpath2 
+echo "</key>" >> $clientpath2
+
+
+#--------
+
 apt install apache2 -y
 cd /var/www/html/
 rm -r index.html
 
-cp /root/my_ca/pki/ca.crt /var/www/html/
-cp /root/my_ca/pki/private/client02.key /var/www/html/
-cp /root/my_ca/pki/issued/client02.crt /var/www/html/
+cp $clientpath /var/www/html/
+cp $clientpath2 /var/www/html/
