@@ -64,10 +64,28 @@ cd /usr/share/doc/easy-rsa/
 make-cadir /root/my_ca
 cd /root/my_ca
 
+echo "set_var EASYRSA_REQ_COUNTRY     "DE"" >> vars
+echo "set_var EASYRSA_REQ_PROVINCE    "Baden-Wuerttemberg"" >> vars
+echo "set_var EASYRSA_REQ_CITY        "Mannheim"" >> vars
+echo "set_var EASYRSA_REQ_ORG "Private Organization"" >> vars
+echo "set_var EASYRSA_REQ_EMAIL       "mail@example.com"" >> vars
+echo "set_var EASYRSA_REQ_OU          "Private OU"" >> vars
+
+echo -e "\n Initialize PKI \n"
+
+. ./vars
 ./easyrsa clean-all
 ./easyrsa build-ca nopass
+./easyrsa gen-dh
 
+
+echo -e "\n Create Server Certificates \n"
+#3. Create Server Certificates
 ./easyrsa build-server-full $servername nopass
+
+
+echo -e "\n Create Client Certificate \n"
+#4. Create Client Certificate
 ./easyrsa build-client-full $clientname01 nopass
 ./easyrsa build-client-full $clientname02 nopass
 
