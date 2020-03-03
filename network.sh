@@ -6,6 +6,15 @@ read -p "(s) Server (c) Client " Y
 case ${Y:0:1} in
     s|S )
         #Server        
+
+    ;;
+    c|C )
+        #Client
+        
+    ;;
+esac
+
+
 clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
@@ -40,9 +49,3 @@ echo "nameserver 10.16.1.253" > $path2
 
 systemctl restart networking
 reboot
-    ;;
-    c|C )
-        #Client
-        echo test
-    ;;
-esac
