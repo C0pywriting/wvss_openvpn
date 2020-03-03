@@ -12,6 +12,8 @@ Mit network.sh die Ip anpassen auf beiden VM´s
 #chmod +x network.sh
 #./network.sh
 
+Netzwerkbrücke schulnetz einstellen 
+
 3. Step 
 VM die als VPN Server arbeiten soll. -> server.sh 
 
