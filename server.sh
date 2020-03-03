@@ -91,8 +91,8 @@ echo "port 1194" >> $path
 echo "proto udp" >> $path
 echo "dev tun" >> $path
 echo "ca ca.crt" >> $path
-echo "cert server.crt" >> $path
-echo "key server.key" >> $path
+echo "cert $servername.crt" >> $path
+echo "key $servername.key" >> $path
 echo "dh dh.pem" >> $path
 echo "ping-timer-rem" >> $path
 echo "keepalive 20 180" >> $path
@@ -111,14 +111,10 @@ cp /root/my_ca/pki/private/$clientname01.key $clientname01.key
 cp /root/my_ca/pki/ca.crt ca.cert
 
 clientpath="/home/tmp/$clientname01.conf"
-
+echo "client" > $clientpath
 echo "remote $serverip 1194" > $clientpath
 echo "proto udp" >> $clientpath
 echo "dev tun" >> $clientpath
-echo "ca ca.crt" >> $clientpath
-echo "cert client01.crt" >> $clientpath
-echo "key client01.key" >> $clientpath
-#echo "dh dh.pem" >> $clientpath
 echo "ping-timer-rem" >> $clientpath
 echo "keepalive 20 180" >> $clientpath
 echo "tls-client" >> $clientpath
@@ -139,13 +135,10 @@ cp /root/my_ca/pki/private/$clientname02.key $clientname02.key
 
 clientpath2="/home/tmp/$clientname02.conf"
 
+echo "client" > $clientpath2
 echo "remote $serverip 1194" > $clientpath2
 echo "proto udp" >> $clientpath2
 echo "dev tun" >> $clientpath2
-echo "ca ca.crt" >> $clientpath2
-echo "cert client01.crt" >> $clientpath2
-echo "key client01.key" >> $clientpath2
-#echo "dh dh.pem" >> $clientpath2
 echo "ping-timer-rem" >> $clientpath2
 echo "keepalive 20 180" >> $clientpath2
 echo "tls-client" >> $clientpath2
