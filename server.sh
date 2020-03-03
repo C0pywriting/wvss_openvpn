@@ -14,7 +14,7 @@ read -p "Dateiname für Client02 <>.cert? " clientname02
 
 #echo -e "\n VPN Netz IP bsp. 192.168.0.0"
 read -p "VPN Netz IP bsp. (1) 10.8.0.0? " VpnNetzIp
-case ${dh:0:1} in
+case ${VpnNetzIp:0:1} in
     1 )
         VpnNetzIp="10.8.0.0"
     ;;
