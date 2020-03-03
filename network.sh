@@ -18,6 +18,7 @@ esac
 
 apt update
 apt install openvpn -y
+apt install ntp -y
 
 path="/etc/network/interfaces"
 
