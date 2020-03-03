@@ -17,15 +17,12 @@ read -p "VPN Netz IP bsp. 192.168.0.0? " VpnNetzIp
 read -p "VPN Server IP? " serverip
 
 echo -e "\n Diffie Hellman Parameter Engabe"
-read -p "Bitte wähle: (1) 1024 / (2) 2048 / (3) 4096? " dh
+read -p "Bitte wähle: (1) 2048 / (2) 4096? " dh
 case ${dh:0:1} in
     1 )
-        dh="1024"
-    ;;
-    2 )
         dh="2048"
     ;;
-    3 )
+    2 )
         dh="4096"
     ;;
 esac
@@ -91,6 +88,7 @@ echo "key server.key" >> $path
 echo "dh dh.pem" >> $path
 echo "ping-timer-rem" >> $path
 echo "keepalive 20 180" >> $path
+echo "tls-server" >> $path
 
 systemctl restart openvpn
 
@@ -112,9 +110,10 @@ echo "dev tun" >> $clientpath
 echo "ca ca.crt" >> $clientpath
 echo "cert client01.crt" >> $clientpath
 echo "key client01.key" >> $clientpath
-echo "dh dh.pem" >> $clientpath
+#echo "dh dh.pem" >> $clientpath
 echo "ping-timer-rem" >> $clientpath
 echo "keepalive 20 180" >> $clientpath
+echo "tls-client" >> $clientpath
 echo "<ca>" >> $clientpath
 cat ca.cert >> $clientpath 
 echo "</ca>" >> $clientpath
@@ -138,9 +137,10 @@ echo "dev tun" >> $clientpath2
 echo "ca ca.crt" >> $clientpath2
 echo "cert client01.crt" >> $clientpath2
 echo "key client01.key" >> $clientpath2
-echo "dh dh.pem" >> $clientpath2
+#echo "dh dh.pem" >> $clientpath2
 echo "ping-timer-rem" >> $clientpath2
 echo "keepalive 20 180" >> $clientpath2
+echo "tls-client" >> $clientpath2
 echo "<ca>" >> $clientpath2
 cat ca.cert >> $clientpath2 
 echo "</ca>" >> $clientpath2
