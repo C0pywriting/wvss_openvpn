@@ -17,6 +17,7 @@ case ${answer:0:1} in
 esac
 
 apt update
+apt install openvpn -y
 
 path="/etc/network/interfaces"
 
