@@ -2,7 +2,8 @@
 1. Step 
 2x VM erstellen 
 
-2.Step  // auto reboot danach 
+2.Step auto reboot danach
+
 Mit network.sh die Ip anpassen auf beiden VM´s 
 #nano network.sh
 #inhalt einfügen
@@ -13,6 +14,7 @@ Mit network.sh die Ip anpassen auf beiden VM´s
 
 3. Step 
 VM die als VPN Server arbeiten soll. -> server.sh 
+
 #nano server.sh 
 #inhalt einfügen
 #Strg + x Speichern
