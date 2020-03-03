@@ -5,8 +5,7 @@ echo -e "VPN Server oder VPN Client \n"
 read -p "(s) Server (c) Client " Y
 case ${Y:0:1} in
     s|S )
-        #Server
-        esac
+        #Server        
 clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
@@ -46,4 +45,4 @@ reboot
         #Client
         echo test
     ;;
-
+esac
