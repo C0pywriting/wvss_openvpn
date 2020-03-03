@@ -161,3 +161,14 @@ rm -r index.html
 
 cp $clientpath /var/www/html/
 cp $clientpath2 /var/www/html/
+
+
+read -p "Server reboot (y/n)? " VpnNetzIp
+case ${dh:0:1} in
+    y|Y )
+        reboot
+    ;;
+    * )
+        
+    ;;
+esac
