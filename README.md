@@ -23,7 +23,8 @@ VM die als VPN Server arbeiten soll. -> server.sh
 #./server.sh 
 
 4. Step 
-VM auf der der Client laufen soll 
+VM auf der der Client laufen soll
+
 #apt install openvpn -y
 ip von VPN Server im webbrowser 
 -dort kann die config kopiert werden 
