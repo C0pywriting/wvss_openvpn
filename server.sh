@@ -112,7 +112,7 @@ cp /root/my_ca/pki/ca.crt ca.cert
 
 clientpath="/home/tmp/$clientname01.conf"
 echo "client" > $clientpath
-echo "remote $serverip 1194" > $clientpath
+echo "remote $serverip 1194" >> $clientpath
 echo "proto udp" >> $clientpath
 echo "dev tun" >> $clientpath
 echo "ping-timer-rem" >> $clientpath
@@ -136,7 +136,7 @@ cp /root/my_ca/pki/private/$clientname02.key $clientname02.key
 clientpath2="/home/tmp/$clientname02.conf"
 
 echo "client" > $clientpath2
-echo "remote $serverip 1194" > $clientpath2
+echo "remote $serverip 1194" >> $clientpath2
 echo "proto udp" >> $clientpath2
 echo "dev tun" >> $clientpath2
 echo "ping-timer-rem" >> $clientpath2
