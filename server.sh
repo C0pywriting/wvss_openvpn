@@ -1,5 +1,5 @@
 #!/bin/bash
-apt install openvpn -y
+
 clear
 ip a
 echo -e "\n \n Bitte gebe die Variablen ein: \n"
@@ -56,7 +56,7 @@ case ${answer:0:1} in
     ;;
 esac
 echo -e "\n Lehne dich zurück wir arbeiten jetzt für dich ....."
-
+apt install openvpn -y
 
 echo -e "\n \n \n     Easy-rsa \n"
 echo -e "Erstellung der Zertifikate\n"
@@ -73,7 +73,7 @@ cd /root/my_ca
 ./easyrsa build-client-full $clientname02 nopass
 
 echo -e "\n Ende Easy-rsa \n"
-
+cd /etc/openvpn/
 echo -e  "Diffie Hellman Parameter erzeugen \n"
 openssl dhparam -out dh.pem $dh
 
