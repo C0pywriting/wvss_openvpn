@@ -56,7 +56,6 @@ case ${answer:0:1} in
     ;;
 esac
 echo -e "\n Lehne dich zurück wir arbeiten jetzt für dich ....."
-apt install openvpn -y
 
 echo -e "\n \n \n     Easy-rsa \n"
 echo -e "Erstellung der Zertifikate\n"
@@ -163,12 +162,14 @@ cp $clientpath /var/www/html/
 cp $clientpath2 /var/www/html/
 
 
-read -p "Server reboot (y/n)? " VpnNetzIp
-case ${dh:0:1} in
+read -p "reboot? (y/n)? " re
+case ${re:0:1} in
     y|Y )
+        #hier könnte Werbung stehen
         reboot
     ;;
     * )
         
+        exit
     ;;
 esac
