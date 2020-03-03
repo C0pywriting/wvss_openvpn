@@ -1,8 +1,22 @@
 #!/bin/bash
+echo -e "Welche IP-Adresse soll genutzt werden? \n"
+read -p "bsp 10.10.raum.pc+100: " ip
+clear
+echo -e "\n \n"
+echo "Eingaben in der Übersicht:"
+echo -e "IP: $ip \n \n"
+read -p "Alle Eingaben Richtig (y/n)? " answer
+case ${answer:0:1} in
+    y|Y )
+        #hier könnte Werbung stehen
+    ;;
+    * )
+        echo "Abbruch es wurde noch nichts am system veraendert!!!"
+        exit
+    ;;
+esac
 
 apt update
-echo Welche IP-Adresse soll genutzt werden?
-read ip
 
 path="/etc/network/interfaces"
 
