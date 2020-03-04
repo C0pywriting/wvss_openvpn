@@ -38,7 +38,7 @@ esac
 clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
-echo -e "IP: $ip \n \n"
+echo -e "IP: $ip \n"
 
 case ${Y:0:1} in
     s|S )
@@ -46,11 +46,12 @@ case ${Y:0:1} in
     ;;
     c|C )
         #Client
-        read -p "VPN Server IP: " ipvpnserver
-        read -p "Client name: " clientname       
+        echo "VPN Server IP: $ipvpnserver" 
+        echo "Client name: $clientname"        
     ;;
 esac
-
+echo ""
+echo ""
 read -p "Alle Eingaben Richtig (y/n)? " answer
 case ${answer:0:1} in
     y|Y )
