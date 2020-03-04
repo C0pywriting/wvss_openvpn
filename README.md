@@ -26,8 +26,9 @@ Step 3 VPN Server -> server.sh
 
 Step 4 VPN Linux Client -> network.sh
 - client einstellungen
-- Client startet neu und ist fertig 
+- Client startet neu 
 
+Netzwerkbrücke schulnetz einstellen nach reboot
 
 
 Bei evtl problemen diesen Befehl absetzen.
