@@ -1,19 +1,6 @@
 #!/bin/bash
 echo -e "Welche IP-Adresse soll genutzt werden? \n"
 read -p "bsp 10.10.raum.pc+100: " ip
-echo -e "VPN Server oder VPN Client \n"
-read -p "(s) Server (c) Client " Y
-case ${Y:0:1} in
-    s|S )
-        #Server        
-
-    ;;
-    c|C )
-        #Client
-        
-    ;;
-esac
-
 
 clear
 echo -e "\n \n"
