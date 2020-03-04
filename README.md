@@ -5,21 +5,18 @@
 Step 1
 - Erstelle 2 VM's
 
-Step 2 VPN Server
-Mit network.sh die Ip anpassen 
-
+Step 2 VPN Server -> network.sh Ip anpassen 
 - nano network.sh
 - inhalt einfügen
 - Strg + x Speichern
 - Strg + o nano close
 - chmod +x network.sh
 - ./network.sh
+- Server startet neu
 
 Netzwerkbrücke schulnetz einstellen 
 
-Step 3
-VM die als VPN Server arbeiten soll. -> server.sh 
-
+Step 3 VPN Server -> server.sh 
 - nano server.sh 
 - inhalt einfügen
 - Strg + x Speichern
@@ -27,15 +24,11 @@ VM die als VPN Server arbeiten soll. -> server.sh
 - chmod +x server.sh 
 - ./server.sh 
 
-Step 4
-VM auf der der Client laufen soll
-
-ip von VPN Server im webbrowser 
--dort kann die config kopiert werden 
-nano /etc/openvpn/client.conf
-reboot
+Step 4 VPN Linux Client -> network.sh
+- client einstellungen
+- Client startet neu und ist fertig 
 
 
 
-
-Client modprobe tun
+Bei evtl problemen diesen Befehl absetzen.
+- modprobe tun
