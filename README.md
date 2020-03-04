@@ -5,7 +5,7 @@
 Step 1
 - Erstelle 2 VM's
 
-Step 2 VPN Server -> network.sh Ip anpassen 
+Step 2 VPN Server -> network_client_server.sh Ip anpassen 
 - nano network.sh
 - inhalt einfügen
 - Strg + x Speichern
@@ -16,7 +16,7 @@ Step 2 VPN Server -> network.sh Ip anpassen
 
 Netzwerkbrücke schulnetz einstellen 
 
-Step 3 VPN Server -> server.sh 
+Step 3 VPN Server -> server_vars.sh 
 - nano server.sh 
 - inhalt einfügen
 - Strg + x Speichern
@@ -24,7 +24,7 @@ Step 3 VPN Server -> server.sh
 - chmod +x server.sh 
 - ./server.sh 
 
-Step 4 VPN Linux Client -> network.sh
+Step 4 VPN Linux Client -> network_client_server.sh
 - client einstellungen
 - Client startet neu 
 
