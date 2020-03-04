@@ -6,11 +6,16 @@ read -p "(s) Server (c) Client " Y
 case ${Y:0:1} in
     s|S )
         #Server        
-
     ;;
     c|C )
         #Client
-        
+        read -p "VPN Server IP: " ipvpnserver
+        read -p "Client name: " clientname        
+    ;;
+    * )
+        echo "Bitte Wähle aus ob dies der Server oder dier Client ist"
+        echo "versuche es noch einmal"
+        exit 
     ;;
 esac
 
@@ -19,6 +24,18 @@ clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
 echo -e "IP: $ip \n \n"
+
+case ${Y:0:1} in
+    s|S )
+        #Server        
+    ;;
+    c|C )
+        #Client
+        read -p "VPN Server IP: " ipvpnserver
+        read -p "Client name: " clientname       
+    ;;
+esac
+
 read -p "Alle Eingaben Richtig (y/n)? " answer
 case ${answer:0:1} in
     y|Y )
@@ -33,6 +50,20 @@ esac
 apt update
 apt install openvpn -y
 apt install ntp -y
+
+
+case ${Y:0:1} in
+    s|S )
+        #Server        
+    ;;
+    c|C )
+        #Client
+        #Wget 
+        wget $ipvpnserver/$clientname.conf
+        mv $clientname.conf /etc/openvpn/$clientname.conf        
+    ;;
+esac
+
 
 path="/etc/network/interfaces"
 
