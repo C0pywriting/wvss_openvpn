@@ -277,7 +277,7 @@ echo -e "VPN Server ist fertig!"
 echo -e "Die Client .conf findest du unter:"
 echo -e "http://$serverip"
 echo -e "\n"
-echo -e "Angaben für network_client_server.sh
+echo -e "Angaben für network_client_server.sh"
 echo -e "Clientname:    $clientname01"
 echo -e "ServerIP:      $serverip"
 echo -e ""
