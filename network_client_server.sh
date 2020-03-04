@@ -60,7 +60,19 @@ case ${Y:0:1} in
         #Client
         #Wget 
         wget $ipvpnserver/$clientname.conf
-        mv $clientname.conf /etc/openvpn/$clientname.conf        
+        mv $clientname.conf /etc/openvpn/$clientname.conf
+        echo "Es kann bei server_vars.sh weiter gehen"
+        read -p "Weiter gegangen? (y/n)? " weiter
+case ${weiter:0:1} in
+    y|Y )
+        #hier könnte Werbung stehen
+        
+    ;;
+    * )
+        
+        
+    ;;
+esac
     ;;
 esac
 
@@ -79,4 +91,15 @@ path2="/etc/resolv.conf"
 echo "nameserver 10.16.1.253" > $path2
 
 systemctl restart networking
-reboot
+
+read -p "reboot? (y/n)? " re
+case ${re:0:1} in
+    y|Y )
+        #hier könnte Werbung stehen
+        reboot
+    ;;
+    * )
+        
+        exit
+    ;;
+esac
