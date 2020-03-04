@@ -13,8 +13,7 @@
 #
 #====================================================
 
-echo -e "Welche IP-Adresse soll genutzt werden? \n"
-read -p "bsp 10.10.raum.pc+100: " ip
+
 echo -e "VPN Server oder VPN Client \n"
 read -p "(s) Server (c) Client " Y
 echo -e "Welche IP-Adresse soll genutzt werden? \n"
