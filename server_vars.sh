@@ -1,4 +1,17 @@
 #!/bin/bash
+#===================================================
+#
+#       FILE:       server_vars.sh
+#
+#       AUTHOR:     C0pywriting  
+#
+#       LINK:       https://github.com/C0pywriting
+#
+#       VERSION:    1.0
+#
+#       CREATED:    04.03.2020
+#
+#====================================================
 
 clear
 ip a
