@@ -3,16 +3,9 @@
 clear
 ip a
 echo -e "\n \n Bitte gebe die Variablen ein: \n"
-#echo -e "Dateiname für Server <>.cert"
 read -p "Dateiname für Server <>.cert? " servername
-
-#echo -e "\n Dateiname für Client01 <>.cert"
 read -p "Dateiname für Client01 <>.cert? " clientname01
-
-#echo -e "\n Dateiname für Client02 <>.cert"
 read -p "Dateiname für Client02 <>.cert? " clientname02
-
-#echo -e "\n VPN Netz IP bsp. 192.168.0.0"
 read -p "VPN Netz IP bsp. (1) 10.8.0.0? " VpnNetzIp
 case ${VpnNetzIp:0:1} in
     1 )
@@ -35,6 +28,78 @@ case ${dh:0:1} in
     ;;
 esac
 
+
+
+clear
+echo -e "\n \n Easy Rsa Vars Einstellungen:"
+echo -e "Standardwerte mit (1) Uebernehmen: \n"
+echo "Land:         DE"
+echo "Bundesland:   Baden-Wuerttemberg"
+echo "Stadt:        Mannheim"
+echo "Organisation: Private Organization"
+echo "E-Mail:       mail@example.com"
+echo "OU:           Private OU"
+
+read -p "Land? " country
+case ${country:0:1} in
+    1 )
+        country="DE"
+    ;;
+    * )
+        
+    ;;
+esac
+
+read -p "Bundesland? " province
+case ${province:0:1} in
+    1 )
+        province="Baden-Wuerttemberg"
+    ;;
+    * )
+        
+    ;;
+esac
+
+read -p "Stadt? " city
+case ${city:0:1} in
+    1 )
+        city="Mannheim"
+    ;;
+    * )
+        
+    ;;
+esac
+
+read -p "Organisation? " org
+case ${org:0:1} in
+    1 )
+        org="Private Organization"
+    ;;
+    * )
+        
+    ;;
+esac
+
+read -p "E-Mail? " mail
+case ${mail:0:1} in
+    1 )
+        mail="mail@example.com"
+    ;;
+    * )
+        
+    ;;
+esac
+
+read -p "OU? " ou
+case ${ou:0:1} in
+    1 )
+        ou="Private OU"
+    ;;
+    * )
+        
+    ;;
+esac
+
 clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
@@ -44,6 +109,13 @@ echo -e "Diffie Hellman Parameter \n Eingabe: $dh \n"
 echo -e "Server Dateien \n $servername.cert \n $servername.key \n "
 echo -e "Client 01 Dateien \n $clientname01.cert \n $clientname01.key \n"
 echo -e "Client 02 Dateien \n $clientname02.cert \n $clientname02.key \n"
+echo -e "Easy Rsa Vars Einstellungen: \n"
+echo "Land: $country"
+echo "Bundesland: $province"
+echo "Stadt: $city"
+echo "Organisation: $org"
+echo "E-Mail: $mail"
+echo "OU: $ou"
 
 read -p "Alle Eingaben Richtig (y/n)? " answer
 case ${answer:0:1} in
@@ -55,6 +127,7 @@ case ${answer:0:1} in
         exit
     ;;
 esac
+#Start
 echo -e "\n Lehne dich zurück wir arbeiten jetzt für dich ....."
 
 echo -e "\n \n \n     Easy-rsa \n"
@@ -63,29 +136,29 @@ echo -e "Erstellung der Zertifikate\n"
 cd /usr/share/doc/easy-rsa/
 make-cadir /root/my_ca
 cd /root/my_ca
-
-echo "set_var EASYRSA_REQ_COUNTRY     "DE"" >> vars
-echo "set_var EASYRSA_REQ_PROVINCE    "Baden-Wuerttemberg"" >> vars
-echo "set_var EASYRSA_REQ_CITY        "Mannheim"" >> vars
-echo "set_var EASYRSA_REQ_ORG "Private Organization"" >> vars
-echo "set_var EASYRSA_REQ_EMAIL       "mail@example.com"" >> vars
-echo "set_var EASYRSA_REQ_OU          "Private OU"" >> vars
+#Vars Einstellungen übernehmen und in vars schreiben 
+echo "set_var EASYRSA_REQ_COUNTRY     "$country"" >> vars
+echo "set_var EASYRSA_REQ_PROVINCE    "$province"" >> vars
+echo "set_var EASYRSA_REQ_CITY        "$city"" >> vars
+echo "set_var EASYRSA_REQ_ORG         "$org"" >> vars
+echo "set_var EASYRSA_REQ_EMAIL       "$mail"" >> vars
+echo "set_var EASYRSA_REQ_OU          "$ou"" >> vars
 
 echo -e "\n Initialize PKI \n"
 
 . ./vars
 ./easyrsa clean-all
 ./easyrsa build-ca nopass
-./easyrsa gen-dh
+#./easyrsa gen-dh
 
 
 echo -e "\n Create Server Certificates \n"
-#3. Create Server Certificates
+#Create Server Certificates
 ./easyrsa build-server-full $servername nopass
 
 
 echo -e "\n Create Client Certificate \n"
-#4. Create Client Certificate
+#Create Client Certificate
 ./easyrsa build-client-full $clientname01 nopass
 ./easyrsa build-client-full $clientname02 nopass
 
@@ -93,7 +166,7 @@ echo -e "\n Ende Easy-rsa \n"
 cd /etc/openvpn/
 echo -e  "Diffie Hellman Parameter erzeugen \n"
 openssl dhparam -out dh.pem $dh
-
+clear
 echo -e "Server key / cert / ca.cert / dh.pem werden in /etc/openvpn/ kopiert \n"
 cp /root/my_ca/pki/private/$servername.key /etc/openvpn/
 cp /root/my_ca/pki/issued/$servername.crt /etc/openvpn/
@@ -179,6 +252,12 @@ rm -r index.html
 cp $clientpath /var/www/html/
 cp $clientpath2 /var/www/html/
 
+echo -e "VPN Server ist fertig!"
+echo -e "Die Client .conf findest du unter:"
+echo -e "http://$serverip"
+echo -e "\n"
+echo -e "Diese muss auf dem Linux Client abgelegt werden."
+echo -e "/etc/openvpn/"
 
 read -p "reboot? (y/n)? " re
 case ${re:0:1} in
