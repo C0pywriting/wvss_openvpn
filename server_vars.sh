@@ -6,9 +6,9 @@ echo -e "\n \n Bitte gebe die Variablen ein: \n"
 read -p "Dateiname für Server <>.cert? " servername
 read -p "Dateiname für Client01 <>.cert? " clientname01
 read -p "Dateiname für Client02 <>.cert? " clientname02
-read -p "VPN Netz IP bsp. (1) 10.8.0.0? " VpnNetzIp
+read -p "VPN Netz IP bsp. (n) 10.8.0.0? " VpnNetzIp
 case ${VpnNetzIp:0:1} in
-    1 )
+    n|N )
         VpnNetzIp="10.8.0.0"
     ;;
     * )
@@ -167,6 +167,9 @@ cd /etc/openvpn/
 echo -e  "Diffie Hellman Parameter erzeugen \n"
 openssl dhparam -out dh.pem $dh
 clear
+
+
+#OpenVpn wird nun vorbereitet
 echo -e "Server key / cert / ca.cert / dh.pem werden in /etc/openvpn/ kopiert \n"
 cp /root/my_ca/pki/private/$servername.key /etc/openvpn/
 cp /root/my_ca/pki/issued/$servername.crt /etc/openvpn/
@@ -192,6 +195,7 @@ systemctl restart openvpn
 
 echo "VPN Server ist aktiv"
 
+#OpenVpn Client confs
 
 echo "Client01 conf erstellen"
 mkdir /home/tmp
@@ -243,7 +247,9 @@ cat $clientname02.key >> $clientpath2
 echo "</key>" >> $clientpath2
 
 
-#--------
+#Ende OpenVpn
+
+#Weitergabe der Client confs über Webserver
 
 apt install apache2 -y
 cd /var/www/html/
@@ -251,14 +257,41 @@ rm -r index.html
 
 cp $clientpath /var/www/html/
 cp $clientpath2 /var/www/html/
+clear
+#User Infos
 
 echo -e "VPN Server ist fertig!"
 echo -e "Die Client .conf findest du unter:"
 echo -e "http://$serverip"
 echo -e "\n"
-echo -e "Diese muss auf dem Linux Client abgelegt werden."
-echo -e "/etc/openvpn/"
+echo -e "Angaben für network_client_server.sh
+echo -e "Clientname:    $clientname01"
+echo -e "ServerIP:      $serverip"
+echo -e ""
+echo -e ""
+echo -e "Warten bis beim Client gemeldet wird das es hier weiter gehen kann"
+read -p "Bitte warten weiter mit (y)? " ncs
+case ${ncs:0:1} in
+    y|Y )
+        
+    ;;
+    * )
+       echo -e "Warten bis beim Client gemeldet wird das es hier weiter gehen kann"
+        read -p "Bitte warten weiter mit (y)? " ncs1
+case ${ncs1:0:1} in
+    y|Y )
+        
+    ;;
+    * )
+        
+        
+    ;;
+esac 
+        
+    ;;
+esac
 
+#Neustart
 read -p "reboot? (y/n)? " re
 case ${re:0:1} in
     y|Y )
