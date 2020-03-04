@@ -17,13 +17,15 @@
 echo -e "VPN Server oder VPN Client \n"
 read -p "(s) Server (c) Client " Y
 echo -e "Welche IP-Adresse soll genutzt werden? \n"
-read -p "bsp 10.10.raum.pc+100: " ip
+
 case ${Y:0:1} in
     s|S )
-        #Server        
+        #Server  
+        read -p "bsp 10.10.raum.pc+100: " ip
     ;;
     c|C )
         #Client
+        read -p "bsp 10.10.raum.pc+200: " ip
         read -p "VPN Server IP: " ipvpnserver
         read -p "Client name: " clientname        
     ;;
@@ -42,10 +44,12 @@ echo -e "IP: $ip \n"
 
 case ${Y:0:1} in
     s|S )
-        #Server        
+        #Server 
+        read -p "bsp 10.10.raum.pc+100: " ip
     ;;
     c|C )
         #Client
+        read -p "bsp 10.10.raum.pc+200: " ip
         echo "VPN Server IP: $ipvpnserver" 
         echo "Client name: $clientname"        
     ;;
