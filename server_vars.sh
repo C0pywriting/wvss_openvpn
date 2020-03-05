@@ -168,7 +168,7 @@ echo "set_var EASYRSA_CERT_EXPIRE          "$tagecrt"" >> vars
 
 echo -e "\n Initialize PKI \n"
 
-. ./vars
+./vars
 ./easyrsa clean-all
 ./easyrsa build-ca nopass
 #./easyrsa gen-dh
