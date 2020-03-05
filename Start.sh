@@ -1,3 +1,4 @@
+#!/bin/bash
 wget https://github.com/C0pywriting/wvss_openvpn/archive/master.zip
 apt install unzip
 unzip master.zip
