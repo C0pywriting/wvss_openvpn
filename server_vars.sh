@@ -151,6 +151,8 @@ cd /usr/share/doc/easy-rsa/
 make-cadir /root/my_ca
 cd /root/my_ca
 #Vars Einstellungen übernehmen und in vars schreiben 
+
+echo "set_var EASYRSA_DN     "org"" >> vars
 echo "set_var EASYRSA_REQ_COUNTRY     "$country"" >> vars
 echo "set_var EASYRSA_REQ_PROVINCE    "$province"" >> vars
 echo "set_var EASYRSA_REQ_CITY        "$city"" >> vars
