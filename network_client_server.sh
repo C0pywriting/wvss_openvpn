@@ -44,12 +44,12 @@ echo -e "IP: $ip \n"
 
 case ${Y:0:1} in
     s|S )
-        #Server 
-        read -p "bsp 10.10.raum.pc+100: " ip
+        #Server : 
+        echo "Server IP: $ip"
     ;;
     c|C )
         #Client
-        read -p "bsp 10.10.raum.pc+200: " ip
+        echo "Server IP: $ip"
         echo "VPN Server IP: $ipvpnserver" 
         echo "Client name: $clientname"        
     ;;
@@ -111,7 +111,7 @@ path2="/etc/resolv.conf"
 echo "nameserver 10.16.1.253" > $path2
 
 systemctl restart networking
-
+echo "Netzwerkbrücke der VM einstellen"
 read -p "reboot? (y/n)? " re
 case ${re:0:1} in
     y|Y )
