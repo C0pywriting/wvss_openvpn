@@ -112,7 +112,8 @@ case ${ou:0:1} in
         
     ;;
 esac
-
+read -p "Tage die das ca gültig sein soll 3650? " tageca
+read -p "Tage die das crt gültig sein soll 1080? " tagecrt
 clear
 echo -e "\n \n"
 echo "Eingaben in der Übersicht:"
@@ -156,6 +157,12 @@ echo "set_var EASYRSA_REQ_CITY        "$city"" >> vars
 echo "set_var EASYRSA_REQ_ORG         "$org"" >> vars
 echo "set_var EASYRSA_REQ_EMAIL       "$mail"" >> vars
 echo "set_var EASYRSA_REQ_OU          "$ou"" >> vars
+
+#Tage der vars einstellen
+
+echo "set_var EASYRSA_CA_EXPIRE          "$tageca"" >> vars
+echo "set_var EASYRSA_CERT_EXPIRE          "$tagecrt"" >> vars
+
 
 echo -e "\n Initialize PKI \n"
 
